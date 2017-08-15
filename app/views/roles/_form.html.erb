@@ -1,0 +1,36 @@
+<%= form_for(@role) do |f| %>
+  <% if @role.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@role.errors.count, "error") %> prohibited this role from being saved:</h2>
+
+      <ul>
+      <% @role.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+    <p id = "nameError"></p>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script>
+  nameHandle = document.getElementById('role_name');
+  nameErrorHandle = document.getElementById('nameError');
+
+    nameHandle.onblur= function(){
+      if(nameHandle.value.length == 0){
+        nameErrorHandle.innerHTML = "Can't be blank";
+      } else {
+        nameErrorHandle.innerHTML = "";
+      }
+    }
+
+</script>

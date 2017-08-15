@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RentARoom</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<% if can? :read,Amenity.new %>
+	 <%= link_to "Amenity",amenities_path %> |
+	<% end %> 
+
+	<% if can? :read,City.new %>
+	 <%= link_to "city",cities_path %> |
+	<% end %>
+
+	 <% if can? :read,Role.new %>
+	 	<%= link_to "Role",roles_path %>
+	 <% end %>
+	 <br/>
+
+<% if user_signed_in? %>
+	Welcome <%= current_user.username %>
+	 <%= link_to "AccountSettings",edit_user_registration_path %> |
+	 <%= link_to "Logout",destroy_user_session_path, method: :delete %> |
+	<% else %>
+	<%= link_to "Login", new_user_session_path %> | <%= link_to "Register", new_user_registration_path %>
+<% end %>
+
+
+<%= notice %>
+<%= alert %>
+
+<%= yield %>
+
+</body>
+</html>
