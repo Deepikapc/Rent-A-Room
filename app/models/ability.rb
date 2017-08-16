@@ -11,8 +11,10 @@ class Ability
     elsif user.role? "guest"
         can :read,[Amenity,City,Room]
     elsif user.role? "host"
-        can :read,[Amenity,City,Room]
-        can [:create,:read,:update], Role             
+        can [:read,:create],[Amenity,City,Room]
+        can [:update,:destroy],Room do |room| 
+            room.user == user
+            end          
     end
 
     # Define abilities for the passed in user here. For example:

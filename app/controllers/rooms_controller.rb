@@ -1,4 +1,6 @@
 class RoomsController < ApplicationController
+	before_action :authenticate_user!, except:[:index,:show]
+	load_and_authorize_resource
 	def index
 	 @rooms	= Room.all
 	end
@@ -12,9 +14,9 @@ class RoomsController < ApplicationController
 	 @room.user_id = current_user.id
 	 	if @room.save
 	 		redirect_to rooms_path
-	 	else
+	 	  else
 	 		render new_room_path
-	 end	
+	 	end	
 	end
 
 	def show

@@ -10,15 +10,24 @@ class Room < ActiveRecord::Base
 	has_many :amenities,through: :amenity_rooms
 
 	after_create :set_user_host
+	after_create :send_confirmation
 
 	def set_user_host
-	 host_role = Role.third
-	 # admin_role = Role.second
-	 self.user.role_id = host_role.id
-	 user.save
+		 host_role = Role.third
+		 admin_role = Role.second
+		 if self.user.role_id = admin_role
+		 	self.user.role_id = admin_role.id
+		 else
+			 self.user.role_id = host_role.id
+			 user.save
+		 end
 	end
 
 	def role?(role)
       self.user.role.name == role
+    end
+
+    def send_confirmation
+    	Notification.admin_mail_confirmation(self).deliver!
     end
 end
