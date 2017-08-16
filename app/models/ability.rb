@@ -3,16 +3,16 @@ class Ability
 
   def initialize(user)
     if user.nil?
-        can :read,[Amenity,City]
+        can :read,[Amenity,City,Room]
     elsif user.role? "admin"
         #binding.pry
-        can :manage,[Amenity,City,User]
+        can :manage,[Amenity,City,User,Room]
         can [:create,:read,:update], Role
     elsif user.role? "guest"
-        can :read,[Amenity,City]
-    
-                
-            
+        can :read,[Amenity,City,Room]
+    elsif user.role? "host"
+        can :read,[Amenity,City,Room]
+        can [:create,:read,:update], Role             
     end
 
     # Define abilities for the passed in user here. For example:

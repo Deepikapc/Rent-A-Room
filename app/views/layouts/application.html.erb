@@ -18,6 +18,10 @@
 	 <% if can? :read,Role.new %>
 	 	<%= link_to "Role",roles_path %>
 	 <% end %>
+
+	 <% if can? :read,Room.new %>
+	 	<%= link_to "Room",rooms_path %>
+	 <% end %>
 	 <br/>
 
 <% if user_signed_in? %>
@@ -30,7 +34,7 @@
 
 
 <%= notice %>
-<%= alert %>
+
 
 <%= yield %>
 
