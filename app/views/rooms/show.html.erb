@@ -1,0 +1,18 @@
+<h2>Specific room Details </h2>
+
+name: <%=@room.name %> <br/>
+description:<%= @room.description %><br/>
+Address:<%= @room.address %><br/>
+price:<%= @room.price %><br/>
+latitude:<%= @room.latitude %><br/>
+langitude:<%= @room.langitude %><br/>
+city:<%= @room.city.name %><br/>
+User:<%= @room.user.username %><br/>
+Amenity: <% @room.amenities.each do |amenity| %>
+			<%= amenity.name %> 
+         <% end %>  <br/>
+
+<%= link_to "edit", edit_room_path(@room.id)%> |
+<%= link_to "destroy", room_path(@room.id), method: :delete, data: {confirm: "Are you sure you want to delete?"} %>
+
+

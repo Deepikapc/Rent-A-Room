@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  get 'form_validation/mobile'
+  get 'form_validation/email'
+  get 'form_validation/username'
   devise_for :users
     scope "/admin" do
       resources :users
@@ -6,6 +10,9 @@ Rails.application.routes.draw do
   resources :amenities
   resources :cities
   resources :roles
+  resources :rooms
+
+  
 
   root to: "cities#index"
   # The priority is based upon order of creation: first created -> highest priority.

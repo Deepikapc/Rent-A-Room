@@ -1,0 +1,35 @@
+<h2>Listing Rooms(<%= @rooms.length %>)</h2>
+
+<table>
+<thead>
+	<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Address</th>
+	<th>Price</th>
+	<th>Langitude</th>
+	<th>Langitude</th>
+	<th>City</th>
+	<th>User</th>
+	</tr>
+</thead>
+<tbody>
+<% if @rooms.empty? %>
+	<%= "Record not found" %>
+	<% else %>
+	<% @rooms.each do |room| %>
+	<tr>
+	  	<td><%= link_to room.name ,room_path(room.id) %></td>
+		<td><%= room.description %></td>
+		<td><%= room.address %></td>
+		<td><%= room.price %></td>
+		<td><%= room.langitude %></td>
+		<td><%= room.langitude %></td>
+		<td><%= room.city.name %></td>
+		<td><%= room.user.username %></td>
+		</tr>
+	<% end %>
+<% end %>	
+</tbody>
+</table>
+<%= link_to "Add Room",new_room_path %>

@@ -4,11 +4,13 @@
   <div class="field">
     <%= f.label :UserName %><br />
     <%= f.text_field :username, autofocus: true %>
+    <p id = "usernameError"></p>
   </div>
 
   <div class="field">
     <%= f.label :Password %><br />
     <%= f.password_field :password, autocomplete: "off" %>
+    <p id = "passwordError"></p>
   </div>
 
   <% if devise_mapping.rememberable? -%>
@@ -19,8 +21,67 @@
   <% end -%>
 
   <div class="actions">
-    <%= f.submit "Log in" %>
+    <%= f.submit "Log in" ,id:'submit' %>
   </div>
 <% end %>
 
 <%= render "devise/shared/links" %>
+
+<script>
+  var usernameHandle = document.getElementById('user_username');
+  var usernameErrorHandle =  document.getElementById('usernameError');
+  var passwordHandle = document.getElementById('user_password');
+  var passwordErrorHandle = document.getElementById('passwordError');
+  var submitHandle = document.getElementById('submit');
+
+  submitHandle.disabled = true;
+
+  var validator = {
+    username: false,
+    password: false,
+ }
+
+  function enableSubmit(){
+    if(Object.values(validator).includes(false)){
+      submitHandle.disabled = true;
+    } else {
+      submitHandle.disabled = false;
+    }
+  }
+
+  function validateUsername(username){
+      var alphaOnly = /^[a-zA-Z]*$/;
+      return alphaOnly.test(username);
+    }
+
+  usernameHandle.onblur = function(){
+    validator.username = false;
+    if(usernameHandle.value == ""){
+      usernameErrorHandle.innerHTML = "Can't be blank";
+    } else {
+      if(validateUsername(usernameHandle.value)){
+        validator.username = true;
+        usernameErrorHandle.innerHTML = "can be taken";
+      } else {
+        usernameErrorHandle.innerHTML = "username can contain only alphabets";
+      }
+
+    }
+    enableSubmit();
+  };
+
+  passwordHandle.onblur = function(){
+    validator.password = false;
+    if(passwordHandle.value == ""){
+      passwordErrorHandle.innerHTML = "Can't be blank";
+    } else {
+      if(passwordHandle.value.length >= 6){
+        validator.password = true;
+        passwordErrorHandle.innerHTML = "";
+      } else {
+        passwordErrorHandle.innerHTML = "Invalid password";
+      }
+    }
+    enableSubmit();
+  };
+</script>

@@ -6,26 +6,31 @@
   <div class="field">
     <%= f.label :firstName %><br />
     <%= f.text_field :first_name, autofocus: true %>
+    <p id = "firstNameError"></p>
   </div>
 
   <div class="field">
     <%= f.label :lastName %><br />
     <%= f.text_field :last_name, autofocus: true %>
+    <p id = "lastNameError"></p>
   </div>
 
   <div class="field">
     <%= f.label :UserName %><br />
     <%= f.text_field :username, autofocus: true %>
+    <p id = "UserNameError"></p>
   </div>
 
   <div class="field">
     <%= f.label :mobile %><br />
     <%= f.text_field :mobile, autofocus: true %>
+    <p id = "mobileError"></p>
   </div>
 
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true %>
+    <p id = "emailError"></p>
   </div>
 
   <div class="field">
@@ -34,16 +39,214 @@
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
     <%= f.password_field :password, autocomplete: "off" %>
+    <p id = "passwordError"></p>
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    <p id = "passwordConfirmationError"></p>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Sign up" , id:'submit' %>
   </div>
 <% end %>
 
 <%= render "devise/shared/links" %>
+
+<script>
+  var firstNameHandle = document.getElementById('user_first_name');
+  var firstNameErrorHandle = document.getElementById('firstNameError');
+  var lastNameHandle = document.getElementById('user_last_name');
+  var lastNameErrorHandle = document.getElementById('lastNameError');
+  var userNameHandle = document.getElementById('user_username');
+  var userNameErrorHandle = document.getElementById('UserNameError');
+  var mobileHandle = document.getElementById('user_mobile');
+  var mobileErrorHandle = document.getElementById('mobileError');
+  var emailHandle = document.getElementById('user_email');
+  var emailErrorHandle =  document.getElementById('emailError');
+  var passwordHandle = document.getElementById('user_password');
+  var passwordErrorHandle = document.getElementById('passwordError');
+  var passwordConfirmationHandle = document.getElementById('user_password_confirmation');
+  var passwordConfirmationErrorHandle = document.getElementById('passwordConfirmationError');
+  var submitHandle = document.getElementById('submit');
+
+  submitHandle.disabled = true;
+
+  var validator = {
+    first_name: false,
+    last_name: false,
+    username: false,
+    mobile: false,
+    email: false,
+    password: false,
+    password_confirmation: false
+  }
+  function enableSubmit(){
+    if(Object.values(validator).includes(false)){
+      submitHandle.disabled = true;
+    } else {
+      submitHandle.disabled = false;
+    }
+  }
+
+    function validateEmail(email){
+     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
+
+    function validateUsername(username){
+      var alphaOnly = /^[a-zA-Z]*$/;
+      return alphaOnly.test(username);
+    }
+
+      function validateMobile(mobile){
+      var numberOnly = /^\d+$/;
+      return numberOnly.test(mobile);
+      }
+
+    firstNameHandle.onblur = function(){
+      validator.first_name = false;
+      if(firstNameHandle.value.length == 0){
+          firstNameErrorHandle.innerHTML = "Can't be blank";
+      } else {
+          validator.first_name = true;
+          firstNameErrorHandle.innerHTML = "";
+      }
+      enableSubmit();
+    }
+
+    lastNameHandle.onblur = function(){
+      validator.last_name = false;
+      if(lastNameHandle.value.length == 0){
+        lastNameErrorHandle.innerHTML = "can't be blank";
+      } else {
+        validator.last_name = true;
+        lastNameErrorHandle.innerHTML = "";
+
+      }
+      enableSubmit();
+    }
+
+    userNameHandle.onblur = function(){
+      validator.username = false;
+      if(userNameHandle.value.length == 0){
+        userNameErrorHandle.innerHTML = "Can't be blank";
+      } else {
+        if(validateUsername(userNameHandle.value)){
+          validator.username = true;
+         var usernamexhr = new XMLHttpRequest();
+        usernamexhr.open('GET','/form_validation/username?username=' + userNameHandle.value);
+        usernamexhr.onreadystatechange = function(){
+          if(usernamexhr.readyState == 4 && usernamexhr.status == 200){
+            var response = JSON.parse(usernamexhr.responseText);
+            if(response.success){
+              validator.username = true;
+              userNameErrorHandle.innerHTML = response.msg;
+
+            } else {
+              userNameErrorHandle.innerHTML = response.msg;
+            }
+          }
+        };
+        usernamexhr.send();
+      } else {
+        userNameErrorHandle.innerHTML = "username can contain only alphabets";
+      }
+      }
+      enableSubmit();
+    };
+
+    mobileHandle.onblur = function(){
+      validator.mobile = false;
+      if(mobileHandle.value == ""){
+        mobileErrorHandle.innerHTML = "can't be blank";
+      } else {
+        if(validateMobile(mobileHandle.value)){
+          if(mobileHandle.value.length == 10){
+            var mobilexhr = new XMLHttpRequest();
+          mobilexhr.open('GET','http://localhost:3000/form_validation/mobile?mobile_number=' + mobileHandle.value);
+          mobilexhr.onreadystatechange = function(){
+          if(mobilexhr.readyState == 4 && mobilexhr.status == 200){
+            var response = JSON.parse(mobilexhr.responseText);
+            if(response.success){
+              validator.mobile = true;
+              enableSubmit();
+              
+              mobileErrorHandle.innerHTML = response.msg
+            } else {
+              mobileErrorHandle.innerHTML = response.msg
+            }
+          }
+        };
+          mobilexhr.send();
+        }  else {
+         mobileErrorHandle.innerHTML = "should be 10 digits"; 
+        }
+        } else {
+          mobileErrorHandle.innerHTML = "can contain only numbers";   
+      }
+        }
+        enableSubmit();
+    };
+
+    emailHandle.onblur = function(){
+      validator.email = false;
+      if(emailHandle.value == ""){
+        emailErrorHandle.innerHTML = "Can't be blank";
+      } else {
+        if(validateEmail(emailHandle.value)){
+          var xhr = new XMLHttpRequest();
+        xhr.open('GET','/form_validation/email?email=' + emailHandle.value);
+        xhr.onreadystatechange = function(){
+          if(xhr.readyState == 4 && xhr.status == 200){
+            var response = JSON.parse(xhr.responseText);
+            if(response.success){
+              validator.email = true;
+              emailErrorHandle.innerHTML = response.msg;
+
+            } else {
+              emailErrorHandle.innerHTML = response.msg;
+            }
+          }
+        };
+        xhr.send();
+        } else {
+          emailErrorHandle.innerHTML = "invalid email id";
+        }
+      }
+      enableSubmit();
+    };
+
+    passwordHandle.onblur = function(){
+      validator.password = false;
+      if(passwordHandle.value == ""){
+        passwordErrorHandle.innerHTML = "Can't be blank";
+      } else {
+        if(passwordHandle.value.length >= 6){
+          validator.password = true;
+          passwordErrorHandle.innerHTML = "password can be  taken";
+        } else {
+          passwordErrorHandle.innerHTML = "invalid password";
+        }
+      }
+      enableSubmit();
+    };
+
+    passwordConfirmationHandle.onblur = function(){
+      validator.password_confirmation = false;
+      if(passwordConfirmationHandle.value == ""){
+        passwordConfirmationErrorHandle.innerHTML = "Can't be blank";
+      } else {
+        if(passwordConfirmationHandle.value.length == passwordHandle.value.length){
+          validator.password_confirmation = true;
+          passwordConfirmationErrorHandle.innerHTML = "password can be taken";
+        } else {
+          passwordConfirmationErrorHandle.innerHTML = "password needs to be same";
+        }
+      }
+      enableSubmit();
+    };
+
+</script>
