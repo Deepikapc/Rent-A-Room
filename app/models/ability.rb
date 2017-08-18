@@ -5,13 +5,17 @@ class Ability
     if user.nil?
         can :read,[Amenity,City,Room]
     elsif user.role? "admin"
-        #binding.pry
-        can :manage,[Amenity,City,User,Room]
+        can :manage,[Amenity,City,User,Room] 
+        can :unauthorized,Room   
         can [:create,:read,:update], Role
+        
     elsif user.role? "guest"
         can :read,[Amenity,City,Room]
-    elsif user.role? "host"
-        can [:read,:create],[Amenity,City,Room]
+        can :create,Room  
+             
+    elsif user.role? "host"  
+        can [:read,:create],Room
+        can :myroom,Room
         can [:update,:destroy],Room do |room| 
             room.user == user
             end          

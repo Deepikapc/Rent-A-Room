@@ -10,8 +10,9 @@
 	<%= f.text_field :rules %><br/>
 	<%= f.label :minimum_days %>
 	<%= f.select :minimum_days ,[1,2,3,4,5]%><br/>
+
 	<%= f.label :address %>
-	<%= f.text_field :address %><br/>
+	<%= f.text_area :address %><br/>
 	<p id="addressError"></p>
 
 	<%= f.label :latitude %>
@@ -22,14 +23,18 @@
 	<%= f.text_field :langitude %><br/>
 	<p id = "langitudeError"></p> 
 
-	<%= f.label :is_authorized %>
-	<%= f.radio_button :is_authorized,true,:checked => "false" %><br/>
+	<% if can? :update,Room.new %>
+		<%= f.label :is_authorized %>
+		<%= f.check_box :is_authorized %>
+	<% end %>	
+	
 
 	<%= f.label :city%>
 	<%= f.collection_select :city_id,City.all,:id,:name ,prompt: "Select City"%><br/>
 
-	<%= f.label :user %>
-	<%= f.collection_select :user_id,User.all,:id,:username %><br/>
+	<%#= f.label :user %>
+	<%#= f.collection_select :user_id,User.all,:id,:username ,prompt: "Select User"%><br/>
+
 	<%= f.label :Amenity %>
     <%= f.collection_check_boxes :amenity_ids,Amenity.all,:id,:name %> <br/>
 	<%= f.submit %>
@@ -38,7 +43,7 @@
 
 <script>
 	var addressHandle =  document.getElementById('room_address');
-	var addressErrorHandle = document.getElementById('room_address');
+	var addressErrorHandle = document.getElementById('addressError');
 	var latitudeHandle = document.getElementById('room_latitude');
 	var latitudeErrorHandle = document.getElementById('latitudeError');
 	var langitudeHandle = document.getElementById('room_langitude');
@@ -49,15 +54,16 @@
 			addressErrorHandle.innerHTML = "Can't be blank";
 		} else {
 			addressErrorHandle.innerHTML = "";	
+			var addressSplit= addressHandle.value.split(" ").join("+")
 			var xhr = new XMLHttpRequest();
-           xhr.open('GET',"https://maps.googleapis.com/maps/api/geocode/json?address=jayanagar&key=AIzaSyBZEUR89PrVcJnWmRCySjIePLjjmGr_VlQ");
+           xhr.open('GET',"https://maps.googleapis.com/maps/api/geocode/json?address="+addressSplit+"&key=AIzaSyBZEUR89PrVcJnWmRCySjIePLjjmGr_VlQ");
            xhr.onreadystatechange = function(){
         		if(xhr.readyState == 4 && xhr.status == 200){
           			var response = JSON.parse(xhr.responseText);
           			      result = response.results;
 
           			     var latitude = "";
-          			      var langitude = "";
+          			     var langitude = "";
           				result.forEach(function(res){
           					 latitude = res.geometry.location.lat;
           					 langitude = res.geometry.location.lng;

@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   get 'form_validation/mobile'
   get 'form_validation/email'
   get 'form_validation/username'
+  get 'rooms/unauthorized'
+  get 'rooms/myroom'
+
   devise_for :users
     scope "/admin" do
       resources :users
@@ -14,7 +17,7 @@ Rails.application.routes.draw do
 
   
 
-  root to: "cities#index"
+  root to: "rooms#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

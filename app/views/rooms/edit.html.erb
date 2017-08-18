@@ -9,17 +9,22 @@
 	<%= f.label :rules %>
 	<%= f.text_field :rules %><br/>
 	<%= f.label :minimum_days %>
-	<%= f.text_field :minimum_days %><br/>
+	<%= f.select :minimum_days ,[1,2,3,4,5]%><br/>
 	<%= f.label :address %>
 	<%= f.text_field :address %><br/>
 	<%= f.label :latitude %>
 	<%= f.text_field :latitude %><br/>
 	<%= f.label :langitude %>
 	<%= f.text_field :langitude %><br/>
+
+	<% if current_user.role?"admin" %>
+		<%= f.label :is_authorized %>
+		<%= f.check_box :is_authorized ,:checked => true %>
+	<% end %>	
+
 	<%= f.label :city%>
 	<%= f.collection_select :city_id,City.all,:id,:name ,prompt: "Select City"%><br/>
-	<%= f.label :user %>
-	<%= f.collection_select :user_id,User.all,:id,:username,prompt: "Select User" %><br/>
+	
 	<%= f.submit %>
 
 

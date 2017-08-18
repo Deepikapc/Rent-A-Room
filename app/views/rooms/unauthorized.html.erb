@@ -1,15 +1,5 @@
-<h2>Listing Rooms(<%= @rooms.length %>)</h2>
-
-<% if can? "admin",Room.new %> 
-	<%= link_to "UnAuthorize" ,rooms_unauthorized_path %> 
-<% end %>
-
-<% if can? :myroom ,Room.new %> 
-	<%= link_to "MyRoom",rooms_myroom_path %>	
-<% end %>
-
-<table class="table">
-
+<h2>Listing Unauthorized Rooms</h2>
+ <table class="table">
 <thead>
 	<tr>
 	<th>Name</th>
@@ -29,7 +19,7 @@
 	<% else %>
 	<% @rooms.each do |room| %>
 	<tr>
-	  	<td><%= room.name %></td>
+	  	<td><%= room.name  %></td>
 		<td><%= room.description %></td>
 		<td><%= room.address %></td>
 		<td><%= room.price %></td>
@@ -38,10 +28,17 @@
 		<td><%= room.is_authorized %></td>
 		<td><%= room.city.name %></td>
 		<td><%= room.user.username %></td>
+		<% if can? :update,Room.new %>
+			<td><%= form_for room do |f| %>
+				<%= f.label :authorize %>
+				<%= f.check_box :is_authorized ,:checked =>true%></td>
+				
+				<td><%= f.submit "submit" %></td></td>
+			<% end %>
+		<% end %>	
+
 		</tr>
 	<% end %>
 <% end %>	
 </tbody>
 </table>
-
-<%= link_to "Add Room",new_room_path %>
