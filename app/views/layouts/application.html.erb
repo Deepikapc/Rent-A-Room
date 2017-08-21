@@ -23,11 +23,15 @@
 	<% end %>
 
 	 <% if can? :read,Role.new %>
-	 	<%= link_to "Role",roles_path %>
+	 	<%= link_to "Role",roles_path %>|
 	 <% end %>
 
 	 <% if can? :read,Room.new %>
-	 	<%= link_to "Room",rooms_path %>
+	 	<%= link_to "Room",rooms_path %>|
+	 <% end %>
+
+	<% if can? :read,Image.new %>
+	 	<%= link_to "Image",images_path %>
 	 <% end %>
 	 <br/>
 

@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   resources :cities
   resources :roles
   resources :rooms
-
+  resources :images
   
 
   root to: "rooms#index"

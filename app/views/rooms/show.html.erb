@@ -1,6 +1,6 @@
 <h2>Specific room Details </h2>
 
-name: <%=@room.name %> <br/>
+name: <%= @room.name %> <br/>
 description:<%= @room.description %><br/>
 Address:<%= @room.address %><br/>
 price:<%= @room.price %><br/>
@@ -11,6 +11,16 @@ User:<%= @room.user.username %><br/>
 Amenity: <% @room.amenities.each do |amenity| %>
 			<%= amenity.name %> 
          <% end %>  <br/>
+         Image:<% @room.images.each do |image| %>
+         		<%= image_tag image.image.url %>
+         		<% end %>
+
+<iframe
+  width="600"
+  height="450" 
+   frameborder="0" style="border:0" 
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBZEUR89PrVcJnWmRCySjIePLjjmGr_VlQ&q=<%= @room.address %>,<%= @room.latitude %>,<%= @room.langitude %>"allowfullscreen> 
+</iframe>
 
 <%= link_to "edit", edit_room_path(@room.id)%> |
 <%= link_to "destroy", room_path(@room.id), method: :delete, data: {confirm: "Are you sure you want to delete?"} %>

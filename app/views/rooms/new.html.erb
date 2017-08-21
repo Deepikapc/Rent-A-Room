@@ -37,7 +37,15 @@
 
 	<%= f.label :Amenity %>
     <%= f.collection_check_boxes :amenity_ids,Amenity.all,:id,:name %> <br/>
-	<%= f.submit %>
+
+     <%= f.fields_for :images ,@image do |ff| %>
+     	<%= ff.label :image %>:
+     	<%= ff.file_field :image %>
+     	
+     <% end %> <br/>
+
+<%= f.submit %>
+
 
 <% end %>
 
@@ -60,6 +68,7 @@
            xhr.onreadystatechange = function(){
         		if(xhr.readyState == 4 && xhr.status == 200){
           			var response = JSON.parse(xhr.responseText);
+          			console.log(response);
           			      result = response.results;
 
           			     var latitude = "";

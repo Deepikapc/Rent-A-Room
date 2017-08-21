@@ -3,9 +3,9 @@ class Ability
 
   def initialize(user)
     if user.nil?
-        can :read,[Amenity,City,Room]
+        can :read,[Amenity,City,Room,Image]
     elsif user.role? "admin"
-        can :manage,[Amenity,City,User,Room] 
+        can :manage,[Amenity,City,User,Room,Image] 
         can :unauthorized,Room   
         can [:create,:read,:update], Role
         
@@ -14,7 +14,7 @@ class Ability
         can :create,Room  
              
     elsif user.role? "host"  
-        can [:read,:create],Room
+        can [:read,:create],[Room,Image]
         can :myroom,Room
         can [:update,:destroy],Room do |room| 
             room.user == user

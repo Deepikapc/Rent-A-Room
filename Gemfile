@@ -18,6 +18,8 @@ gem 'devise'
 gem 'cancancan'
 gem 'pry'
 gem 'rabl'
+gem 'carrierwave', '~> 1.0'
+gem 'nested_form'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks

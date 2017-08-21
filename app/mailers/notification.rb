@@ -7,8 +7,8 @@ class Notification < ApplicationMailer
   #
   def send_mail_to_admin(room) 
    @room = room
-   @admin_email_id = User.find_by(role_id:Role.find_by(name:"admin").id).email
-    mail to: "#{@admin_email_id}", subject: "please confirm the room - #{room.name}"
+   #@admin_email_id = User.find_by(role_id:Role.find_by(name:"admin").id).email
+    #mail to: "#{@admin_email_id}", subject: "please confirm the room - #{room.name}"
   end
 
   def send_mail_to_host(room)
