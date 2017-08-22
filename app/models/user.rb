@@ -5,16 +5,15 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
          has_many :cities
-         has_many :amenities
          belongs_to :role
          has_many :rooms
 
          after_create :set_user_guest
 
          def set_user_guest
-         	role = Role.first
-         	self.role_id = role.id
-         	self.save
+            guest_role = Role.find_by('name=?',"guest").id
+            self.role_id = guest_role
+            self.save 
          end
 
          def role?(role)

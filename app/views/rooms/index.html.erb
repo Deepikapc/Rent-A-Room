@@ -1,12 +1,14 @@
 <h2>Listing Rooms(<%= @rooms.length %>)</h2>
 
-<% if can? "admin",Room.new %> 
-	<%= link_to "UnAuthorize" ,rooms_unauthorized_path %> 
-<% end %>
-
 <% if can? :myroom ,Room.new %> 
 	<%= link_to "MyRoom",rooms_myroom_path %>	
 <% end %>
+
+<% if can? :unauthorized,Room.new %> 
+	<%= link_to "UnAuthorize" ,rooms_unauthorized_path %> 
+<% end %>
+
+
 
 <table class="table">
 
@@ -29,7 +31,7 @@
 	<% else %>
 	<% @rooms.each do |room| %>
 	<tr>
-	  	<td><%=link_to room.name,room_path(room.id) %></td>
+	  	<td><%= link_to room.name,room_path(room.id) %></td>
 		<td><%= room.description %></td>
 		<td><%= room.address %></td>
 		<td><%= room.price %></td>

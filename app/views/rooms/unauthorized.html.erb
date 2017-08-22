@@ -28,14 +28,14 @@
 		<td><%= room.is_authorized %></td>
 		<td><%= room.city.name %></td>
 		<td><%= room.user.username %></td>
-		<% if can? :update,Room.new %>
+		<%# if can? :update,Room.new %>
 			<td><%= form_for room do |f| %>
 				<%= f.label :authorize %>
-				<%= f.check_box :is_authorized ,:checked =>true%></td>
+				<%= f.hidden_field :is_authorized ,value: true %></td>
 				
 				<td><%= f.submit "submit" %></td></td>
 			<% end %>
-		<% end %>	
+		<%# end %>	
 
 		</tr>
 	<% end %>

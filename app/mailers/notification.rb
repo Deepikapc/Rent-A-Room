@@ -5,15 +5,18 @@ class Notification < ApplicationMailer
   #
   #   en.notification.admin_mail_confirmation.subject
   #
+
+  #while creating room sending room to admin
   def send_mail_to_admin(room) 
    @room = room
-   #@admin_email_id = User.find_by(role_id:Role.find_by(name:"admin").id).email
-    #mail to: "#{@admin_email_id}", subject: "please confirm the room - #{room.name}"
+    admin_email_id = User.find_by(role_id:Role.find_by(name:"admin").id).email
+    mail to: "#{admin_email_id}", subject: "please confirm the room - #{room.name}"
   end
 
-  def send_mail_to_host(room)
-  @room = room     
-	   mail to: "#{room.user.email}", subject: "confirm the room - #{room.name}",body: "Your Room has confirmed"
-  end
+  # #Admin authorizes host room(admin will send mail to host)
+  # def send_mail_to_host(room)
+  # @room = room     
+	 #   mail to: "#{room.user.email}", subject: "confirm the room - #{room.name}",body: "Your Room has confirmed"
+  # end
 
 end

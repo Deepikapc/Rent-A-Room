@@ -1,0 +1,111 @@
+<%= form_for @room do |f| %>
+	<% if @room .errors.any? %>
+		<ul>
+		<% @room.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+		<% end %>
+		</ul>
+	<% end %>
+<div class = "form" %>
+	<%= f.label :name %>
+	<%= f.text_field :name  %>
+</div>
+<div class = "form" %>
+	<%= f.label :description %>
+	<%= f.text_area :description %>
+</div>	
+<div class = "form" %>
+	<%= f.label :price %>
+	<%= f.text_field :price %>
+</div>
+<div class = "form" %>
+	<%= f.label :rules %>
+	<%= f.text_field :rules %>
+</div>
+<div class="form-group">	
+	<%= f.label :minimum_days %>
+	<%= f.select :minimum_days ,[1,2,3,4,5],class: "form-control"%>
+</div>	
+<div class="form">
+	<%= f.label :address %>
+	<%= f.text_area :address  %>
+	<p id="addressError"></p>
+</div>	
+<div class="form">
+	<%= f.label :latitude %>
+	<%= f.text_field :latitude %>
+	<p id = "latitudeError"></p>
+</div>	
+<div class="form">
+	<%= f.label :langitude %>
+	<%= f.text_field :langitude %>
+	<p id = "langitudeError"></p> 
+</div>	
+
+	<%# if can? :update,Room.new %>
+		<%#= f.label :is_authorized %>
+		<%#= f.check_box :is_authorized %>
+	<%# end %>	
+<div class="form">
+	<% if current_user.role?"admin" %>
+		<%= f.label :is_authorized %>
+		<%= f.check_box :is_authorized ,:checked => true %>
+	<% end %> 
+</div>
+<div class="form">
+	<%= f.label :city%>
+	<%= f.collection_select :city_id,City.all,:id,:name ,prompt: "Select City"%>
+</div>	
+<div class="form">
+	<%= f.label :Amenity %>
+    <%= f.collection_check_boxes :amenity_ids,Amenity.all,:id,:name %> 
+</div>    
+
+     <%= f.fields_for :images,@image do |ff| %>
+     	<%= ff.label :image %>:
+     	<%= ff.file_field :image %>   	 	
+     <% end %> <br/>
+
+     <%= f.hidden_field :user_id, value: current_user.id %>
+	 <%#= binding.pry %>     
+	<%= f.submit %>
+<% end %>
+
+<script>
+	var addressHandle =  document.getElementById('room_address');
+	var addressErrorHandle = document.getElementById('addressError');
+	var latitudeHandle = document.getElementById('room_latitude');
+	var latitudeErrorHandle = document.getElementById('latitudeError');
+	var langitudeHandle = document.getElementById('room_langitude');
+
+
+	addressHandle.onblur = function(){
+		if(addressHandle.value == ""){
+			addressErrorHandle.innerHTML = "Can't be blank";
+		} else {
+			addressErrorHandle.innerHTML = "";	
+			var addressSplit= addressHandle.value.split(" ").join("+")
+			var xhr = new XMLHttpRequest();
+           xhr.open('GET',"https://maps.googleapis.com/maps/api/geocode/json?address="+addressSplit+"&key=AIzaSyBZEUR89PrVcJnWmRCySjIePLjjmGr_VlQ");
+           xhr.onreadystatechange = function(){
+        		if(xhr.readyState == 4 && xhr.status == 200){
+          			var response = JSON.parse(xhr.responseText);
+          			console.log(response);
+          			      result = response.results;
+
+          			     var latitude = "";
+          			     var langitude = "";
+          				result.forEach(function(res){
+          					 latitude = res.geometry.location.lat;
+          					 langitude = res.geometry.location.lng;
+          					console.log(latitude);
+          					console.log(langitude);
+          				});
+          				latitudeHandle.value = latitude;
+          				langitudeHandle.value = langitude;
+          		}		
+          	};			
+           xhr.send();
+		}
+	};
+</script>

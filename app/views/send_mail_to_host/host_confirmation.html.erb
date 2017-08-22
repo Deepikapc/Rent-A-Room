@@ -1,0 +1,23 @@
+<p>Hello <%= @room.user.username  %></p>
+
+<h2> Thank you for Adding a Room </h2> 
+<table class="table table-bordered">
+	<thead>
+	<tr>
+		<th>Room Name</th>
+		<th>Address</th>
+		<th>Price</th>
+	</tr>
+	</thead>
+
+<tbody>
+	
+		<tr>
+			<td><%= @room.name %></td>
+			<td><%= @room.address %></td>
+			<td><%= @room.price %></td>
+		</tr>
+	
+</tbody>
+
+</table>
