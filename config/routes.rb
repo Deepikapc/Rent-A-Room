@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'form_validation/username'
   get 'rooms/unauthorized'
   get 'rooms/myroom'
+  get 'rooms/confirmed_unconfirmed_bookings'
 
   devise_for :users
     scope "/admin" do

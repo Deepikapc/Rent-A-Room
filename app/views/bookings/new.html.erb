@@ -1,15 +1,19 @@
-<% if @bookings_error %>
-	<p> "Booking is Full" </p>
-<% end %>
-<%= form_for @book do |f| %>
+<%# if @bookings_error %>
+	<!--<p> "Booking is Full" </p> -->
+<%# end %>
+<%= form_for @booking do |f| %>
+	<% if @booking.errors.any? %>
+		<ul>
+		<% @booking.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+		<% end %>
+		<ul>
+	<% end %>
 	<%= f.label :start_date %>
 	<%= f.text_field :start_date %><br/>
 	<%= f.label :end_date %>
 	<%= f.text_field :end_date %><br/>
-	<%= f.label :amount %>
-	<%= f.text_field :amount %><br/>
-	<%= f.label :Room %>
-	<%= f.collection_select :room_id,Room.all,:id,:name,prompt:"Select Room"%>
+	
 	<%= f.submit %>
 <% end %>
 

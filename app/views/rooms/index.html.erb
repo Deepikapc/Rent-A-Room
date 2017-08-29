@@ -8,7 +8,9 @@
 	<%= link_to "UnAuthorize" ,rooms_unauthorized_path %> 
 <% end %>
 
-
+<% if can? :confirmed_unconfirmed_bookings,Room.new %>
+	<%= link_to "Bookings",rooms_confirmed_unconfirmed_bookings_path %>
+<% end %>
 
 <table class="table">
 

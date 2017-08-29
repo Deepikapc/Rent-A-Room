@@ -13,10 +13,13 @@ class Notification < ApplicationMailer
     mail to: "#{admin_email_id}", subject: "please confirm the room - #{room.name}"
   end
 
-  # #Admin authorizes host room(admin will send mail to host)
-  # def send_mail_to_host(room)
-  # @room = room     
-	 #   mail to: "#{room.user.email}", subject: "confirm the room - #{room.name}",body: "Your Room has confirmed"
-  # end
+  #sending booking mail to host
+  def send_booking_mail_to_host(booking)
+    @booking = booking
+    @host_email_id = User.find(@booking.user_id).email
+    #binding.pry
+    mail to: "#{@host_email_id}", subject: "A New booking request- #{@booking.room.name}"
+  end
+
 
 end

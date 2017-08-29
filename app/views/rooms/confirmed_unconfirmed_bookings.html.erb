@@ -1,34 +1,38 @@
-<table class="table">
+<h2>Listing confirmed and unconfirmed bookings</h2>
+ <table class="table">
 <thead>
 	<tr>
 	<th>RoomName</th>
 	<th>Start_Date</th>
 	<th>End_Date</th>
+	<th>is_confirmed</th>
 	<th>Amount</th>
-	<th
 	</tr>
 </thead>
 <tbody>
 <% if @bookings.empty? %>
 	<%= "Record not found" %>
 	<% else %>
-	<% date_array = [] %>
 	<% @bookings.each do |booking| %>
 	<tr>
 		<td><%#= booking.room.name  %></td>
 	  	<td><%= booking.start_date  %></td>
 		<td><%= booking.end_date %></td>
+		<td><%= booking.is_confirmed %></td>
 		<% no_of_days_booked = (booking.start_date .. booking.end_date).to_a.count %>
-		<%# no_of_days_booked = date_array.count %>
 		<td><%= booking.room.price * no_of_days_booked %></td>
 		
-		
-		
+		<%# if can? :update,Room.new %>
+			<!-- <td><%#= form_for @booking do |f| %>
+				<%#= f.label :is_confirmed %>
+				<%#= f.hidden_field :booking ,value: true %></td>
+				
+				<td><%#= f.submit "submit" %></td></td>
+			<%# end %> -->
+		<%# end %>	
 
 		</tr>
 	<% end %>
 <% end %>	
 </tbody>
 </table>
-
-<%= link_to "Add New Bookings",new_booking_path %>

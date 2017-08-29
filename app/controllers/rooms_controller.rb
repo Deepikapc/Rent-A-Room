@@ -58,6 +58,11 @@ def myroom
 		end
 	end		
 end
+def confirmed_unconfirmed_bookings
+	authorize! :confirmed_unconfirmed_bookings,Room.new
+	@bookings = Booking.all	
+	@booking = Booking.new
+end
 
 	private
 	def room_params

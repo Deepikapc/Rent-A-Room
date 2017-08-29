@@ -14,8 +14,9 @@ class Ability
         can :create,Room  
              
     elsif user.role? "host"  
-        can [:read,:create],[Room,Image]
+        can [:read,:create],[Room,Image,Booking]
         can :myroom,Room
+        can :confirmed_unconfirmed_bookings,Room
         can [:update,:destroy],Image do |image|
             image.user == user
         end
