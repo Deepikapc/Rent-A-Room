@@ -1,25 +1,31 @@
-<%= form_for(@city) do |f| %>
-  <% if @city.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@city.errors.count, "error") %> prohibited this city from being saved:</h2>
+<div class="panel panel-info">
+  <div class="panel-heading">Add New City</div>
+    <div class="panel-body">
+   
+        <%= form_for(@city) do |f| %>
+          <% if @city.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@city.errors.count, "error") %> prohibited this city from being saved:</h2>
 
-      <ul>
-      <% @city.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+              <ul>
+              <% @city.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class='form-group'>
+            <%= f.label :name %><br>
+            <%= f.text_field :name,class:'form-control' %>
+            <p id = "nameError"></p>
+          </div>
+          <div class="actions">
+            <%= f.submit %>
+          </div>
+        <% end %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-    <p id = "nameError"></p>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>
 
 <script>
   nameHandle = document.getElementById('city_name');

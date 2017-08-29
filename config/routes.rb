@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :roles
   resources :rooms
   resources :images
+  resources :bookings
   
 
   root to: "rooms#index"

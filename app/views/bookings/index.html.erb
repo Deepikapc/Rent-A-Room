@@ -1,0 +1,11 @@
+<h2>Listing all bookings</h2>
+<% if @books.empty? %>
+	<p> "Records not found"</p>
+	<% else %>
+	<% @books.each do |book| %>
+		<%= book.start_date %>
+		<%= book.end_date %>
+	<% end %>
+<% end %>	
+
+<%= link_to "Add New Bookings",new_booking_path %>

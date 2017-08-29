@@ -23,7 +23,23 @@ Image:<% @room.images.each do |image| %>
   src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBZEUR89PrVcJnWmRCySjIePLjjmGr_VlQ&q=<%= @room.address %>,<%= @room.latitude %>,<%= @room.langitude %>"allowfullscreen> 
 </iframe>
 <br/>
+
 <%= link_to "edit", edit_room_path(@room.id)%> |
 <%= link_to "destroy", room_path(@room.id), method: :delete, data: {confirm: "Are you sure you want to delete?"} %>
+<br/>
+<br/>
+<br/>
+<div>
 
-
+<%= form_for @booking do |f| %>
+	<%= f.label :start_date %>
+	<%= f.text_field :start_date %><br/>
+	<%= f.label :end_date %>
+	<%= f.text_field :end_date %><br/>
+	<%= f.label :amount %>
+	<%= f.text_field :amount %><br/>
+	<%= f.label :Room %>
+	<%= f.collection_select :room_id,Room.all,:id,:name,prompt:"Select Room"%><br/>
+	<%= f.submit %>
+<% end %>
+</div>

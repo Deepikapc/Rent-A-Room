@@ -31,7 +31,11 @@
 	 <% end %>
 
 	<% if can? :read,Image.new %>
-	 	<%= link_to "Image",images_path %>
+	 	<%= link_to "Image",images_path %>|
+	 <% end %>
+
+	 <% if can? :read,Booking.new %>
+	 	<%= link_to "Booking",bookings_path %>
 	 <% end %>
 	 <br/>
 

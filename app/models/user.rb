@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
          has_many :cities
          belongs_to :role
          has_many :rooms
+         has_many :bookings
 
          after_create :set_user_guest
 

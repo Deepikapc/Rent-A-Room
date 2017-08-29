@@ -5,7 +5,7 @@ class Ability
     if user.nil?
         can :read,[Amenity,City,Room,Image]
     elsif user.role? "admin"
-        can :manage,[Amenity,City,User,Room,Image] 
+        can :manage,[Amenity,City,User,Room,Image,Booking] 
         can :unauthorized,Room   
         can [:create,:read,:update], Role
         
